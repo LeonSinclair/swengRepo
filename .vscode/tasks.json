@@ -1,0 +1,22 @@
+{
+    "version": "0.1.0",
+    
+    "tasks": [
+        {
+            "taskName": "compile",
+            "command": "./compileTests.sh",
+            "isShellCommand": true,
+            "args": ["${fileBasename}"],
+            "showOutput": "always",
+            "echoCommand": true
+        },
+        {
+            "taskName": "runTest",
+            "command": "./runTests.sh",
+            "isShellCommand": true,
+            "args": ["${fileBasenameNoExtension}"],
+            "showOutput": "always",
+            "echoCommand": true
+        }
+    ]
+}
