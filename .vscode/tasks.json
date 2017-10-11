@@ -3,10 +3,10 @@
     
     "tasks": [
         {
-            "taskName": "compile",
+            "taskName": "compileTest",
             "command": "./compileTests.sh",
             "isShellCommand": true,
-            "args": ["${fileBasename}"],
+            "args": ["${relativeFile}"],
             "showOutput": "always",
             "echoCommand": true
         },
@@ -14,7 +14,7 @@
             "taskName": "runTest",
             "command": "./runTests.sh",
             "isShellCommand": true,
-            "args": ["${fileBasenameNoExtension}"],
+            "args": ["${relativeFile}/${fileBasenameNoExtension}"],
             "showOutput": "always",
             "echoCommand": true
         }
