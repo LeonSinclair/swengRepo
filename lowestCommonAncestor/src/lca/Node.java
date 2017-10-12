@@ -18,7 +18,20 @@ public class Node<T>
     //makes first node the parent of the second
     public void connect(Node<T> child)
     {
-        this.children.add(child);
-        child.parent = this;
+        if(child != null)
+        {
+            this.children.add(child);
+            child.parent = this;
+        }
+        
+    }
+
+    public void delete()
+    {
+        for(int i = 0; i < this.children.size(); i++)
+        {
+            this.children.get(i).parent = null;
+        }
+        this.children = null;
     }
 }

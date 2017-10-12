@@ -24,7 +24,7 @@ public class NodeTest extends TestCase
     Node c = new Node("c", 18);
     a.connect(b);
     a.connect(c);
-    LCA.delete(a);
+    a.delete();
     assertEquals("Testing parentage b", null, b.parent);
     assertEquals("Testing parentage c", null, c.parent);
   }
