@@ -26,8 +26,19 @@ public class LCA
         return ancestors;
     }
 
-    public static Node findLowestCommonAncestor(ArrayList aList, ArrayList bList)
+    public static Node findLowestCommonAncestor(ArrayList<Node> aList, ArrayList<Node> bList)
     {
+        for(int i = 0; i < aList.size(); i++)
+        {
+            for(int j = 0; j < bList.size(); j++)
+            {
+                if(bList.get(j).key.equals(aList.get(i).key))
+                {
+                    System.out.println("Found a match!");
+                    return(bList.get(j));
+                }
+            }
+        }
         return null;
     }
 
@@ -44,6 +55,8 @@ public class LCA
         ret += "]";
         return ret;
     }
+
+
 
     
 }

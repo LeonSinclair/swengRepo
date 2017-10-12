@@ -15,7 +15,6 @@ public class LCATest extends TestCase
     a.connect(b);
     b.connect(c);
     a.connect(d);
-
     ArrayList<Node> cList = LCA.populateAncestryList(c);
     String cListStr = LCA.ancestryListToString(cList);
     assertEquals("Testing Ancestry of C","[b,a]", cListStr);
@@ -36,7 +35,7 @@ public class LCATest extends TestCase
     a.connect(d);
     ArrayList<Node> cList = LCA.populateAncestryList(c);
     ArrayList<Node> dList = LCA.populateAncestryList(d);
-    assertEquals("Testing Lowest Common Ancestor", a, LCA.findLowestCommonAncestor(aList, bList));
+    assertEquals("Testing Lowest Common Ancestor", a, LCA.findLowestCommonAncestor(cList, dList));
   }
 
   
