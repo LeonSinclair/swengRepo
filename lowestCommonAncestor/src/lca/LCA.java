@@ -34,7 +34,6 @@ public class LCA
             {
                 if(bList.get(j).key.equals(aList.get(i).key))
                 {
-                    System.out.println("Found a match!");
                     return(bList.get(j));
                 }
             }
