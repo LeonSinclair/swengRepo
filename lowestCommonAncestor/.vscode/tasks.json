@@ -18,7 +18,7 @@
             "command": "./runTests.sh",
             "isShellCommand": true,
             "args": [
-               
+               "${fileBasenameNoExtension}"
             ],
             "showOutput": "always",
             "echoCommand": true,
