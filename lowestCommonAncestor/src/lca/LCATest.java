@@ -13,7 +13,7 @@ public class LCATest extends TestCase
     assertEquals("Testing Ancestry of N","[]", nListStr);
     Node a = new Node("a",1);
     ArrayList<Node> aList = LCA.populateAncestryList(a);
-  	String aListStr = LCA.ancestryListToString(nList);
+  	String aListStr = LCA.ancestryListToString(aList);
     assertEquals("Testing Ancestry of N","[]", aListStr);
     Node b = new Node("b",3);
     Node c = new Node("c",42);
