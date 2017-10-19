@@ -8,7 +8,13 @@ public class LCATest extends TestCase
   //note this also tests the ancestryListToString method effectively
   public void testAncestryPopulation()
   {
+  	ArrayList<Node> nList = LCA.populateAncestryList(null);
+  	String nListStr = LCA.ancestryListToString(nList);
+    assertEquals("Testing Ancestry of N","[]", nListStr);
     Node a = new Node("a",1);
+    ArrayList<Node> aList = LCA.populateAncestryList(a);
+  	String aListStr = LCA.ancestryListToString(nList);
+    assertEquals("Testing Ancestry of N","[]", aListStr);
     Node b = new Node("b",3);
     Node c = new Node("c",42);
     Node d = new Node("d",188);
@@ -22,6 +28,8 @@ public class LCATest extends TestCase
     ArrayList<Node> dList = LCA.populateAncestryList(d);
     String dListStr = LCA.ancestryListToString(dList);
     assertEquals("Testing Ancestry of D","[a]", dListStr);
+    
+    assertEquals("Testing toString for null input", null, LCA.ancestryListToString(null));
   }
 
   public void testFindLCA()
@@ -36,6 +44,11 @@ public class LCATest extends TestCase
     ArrayList<Node> cList = LCA.populateAncestryList(c);
     ArrayList<Node> dList = LCA.populateAncestryList(d);
     assertEquals("Testing Lowest Common Ancestor", a, LCA.findLowestCommonAncestor(cList, dList));
+    b.delete();
+    cList = LCA.populateAncestryList(c);
+    dList = LCA.populateAncestryList(d);
+    assertEquals("Testing Lowest Common Ancestor", null, LCA.findLowestCommonAncestor(cList, dList));
+    
   }
 
   
