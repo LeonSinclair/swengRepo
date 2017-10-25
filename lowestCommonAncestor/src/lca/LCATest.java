@@ -5,50 +5,80 @@ public class LCATest extends TestCase
 {
 
   
-  //note this also tests the ancestryListToString method effectively
-  public void testAncestryPopulation()
-  {
-  	ArrayList<Node> nList = LCA.populateAncestryList(null);
-  	String nListStr = LCA.ancestryListToString(nList);
-    assertEquals("Testing Ancestry of N","[]", nListStr);
-    Node a = new Node("a",1);
-    ArrayList<Node> aList = LCA.populateAncestryList(a);
-  	String aListStr = LCA.ancestryListToString(aList);
-    assertEquals("Testing Ancestry of N","[]", aListStr);
-    Node b = new Node("b",3);
-    Node c = new Node("c",42);
-    Node d = new Node("d",188);
-    a.connect(b);
-    b.connect(c);
-    a.connect(d);
-    ArrayList<Node> cList = LCA.populateAncestryList(c);
-    String cListStr = LCA.ancestryListToString(cList);
-    assertEquals("Testing Ancestry of C","[b,a]", cListStr);
-
-    ArrayList<Node> dList = LCA.populateAncestryList(d);
-    String dListStr = LCA.ancestryListToString(dList);
-    assertEquals("Testing Ancestry of D","[a]", dListStr);
-    
-    assertEquals("Testing toString for null input", null, LCA.ancestryListToString(null));
-  }
-
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   public void testFindLCA()
   {
     Node a = new Node("a",1);
     Node b = new Node("b",3);
     Node c = new Node("c",42);
     Node d = new Node("d",188);
+    
     a.connect(b);
     b.connect(c);
     a.connect(d);
-    ArrayList<Node> cList = LCA.populateAncestryList(c);
-    ArrayList<Node> dList = LCA.populateAncestryList(d);
-    assertEquals("Testing Lowest Common Ancestor", a, LCA.findLowestCommonAncestor(cList, dList));
-    b.delete();
-    cList = LCA.populateAncestryList(c);
-    dList = LCA.populateAncestryList(d);
-    assertEquals("Testing Lowest Common Ancestor", null, LCA.findLowestCommonAncestor(cList, dList));
+    assertEquals("Testing null inputs", null, LCA.findLowestCommonAncestor(null, null, null));
+    assertEquals("Testing null inputs", null, LCA.findLowestCommonAncestor(null, a, null));
+    assertEquals("Testing null inputs", null, LCA.findLowestCommonAncestor(null, null, b));
     
+    ArrayList<Node> list = new ArrayList<Node>();
+    assertEquals("Testing empty list", null, LCA.findLowestCommonAncestor(list, a, b));
+   
+    list.add(a);
+    list.add(b);
+    assertEquals("Testing with node not in list", null, LCA.findLowestCommonAncestor(list, c, b));
+    list.add(c);
+    list.add(d);
+    ArrayList<Node> answers = new ArrayList<Node>();
+    answers.add(a);
+    //returns true if there is a change, so false means they are the same thing
+    assertEquals("Testing LCA with one Common Ancestor.", false, answers.retainAll(LCA.findLowestCommonAncestor(list, c, d)));
+    
+    Node e = new Node("e",200);
+    e.connect(b);
+    list.add(e);
+    assertEquals("Testing LCA with one Common Ancestor.", false, answers.retainAll(LCA.findLowestCommonAncestor(list, c, d)));
+    e.connect(d);
+    answers.add(e);
+    assertEquals("Testing LCA with two Common Ancestors.", false, answers.retainAll(LCA.findLowestCommonAncestor(list, c, d)));
+    
+    Node f = new Node("f", 199);
+    f.connect(a);
+    f.connect(c);
+    list.add(f);
+    assertEquals("Testing LCA with two Common Ancestors.", false, answers.retainAll(LCA.findLowestCommonAncestor(list, c, d)));
+
+    b.connect(a);
+    assertEquals("Testing LCA with a cycle.", null, LCA.findLowestCommonAncestor(list, c ,d));
+    b.disconnect(a);
+  }
+
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+public void testAcylic()
+  {
+    assertEquals("Testing for Cycles with null List", true, LCA.checkAcyclic(null));
+    
+    ArrayList<Node> cycleList = new ArrayList<Node>();
+    Node a = new Node("a",1);
+    cycleList.add(a);
+    assertEquals("Testing for Cycles with 1 element list", true, LCA.checkAcyclic(cycleList));
+    
+    Node b = new Node("b",3);
+    Node c = new Node("c",42);
+    Node d = new Node("d",188);
+    
+    a.connect(b);
+    b.connect(c);
+    a.connect(d);
+      
+    cycleList.add(b);
+    cycleList.add(c);
+    cycleList.add(d);
+    
+    assertEquals("Testing for Cycles", true, LCA.checkAcyclic(cycleList));
+    d.connect(a);
+    assertEquals("Testing for Cycles", false, LCA.checkAcyclic(cycleList));
+    c.connect(a);
+    assertEquals("Testing for Cycles", false, LCA.checkAcyclic(cycleList));
   }
 
   
