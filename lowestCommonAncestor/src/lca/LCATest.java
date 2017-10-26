@@ -48,6 +48,7 @@ public class LCATest extends TestCase
     assertEquals("Testing LCA with two Common Ancestors.", false, answers.retainAll(LCA.findLowestCommonAncestor(list, c, d)));
 
     b.connect(a);
+    c.connect(f);
     assertEquals("Testing LCA with a cycle.", null, LCA.findLowestCommonAncestor(list, c ,d));
     b.disconnect(a);
   }
@@ -55,12 +56,12 @@ public class LCATest extends TestCase
   @SuppressWarnings({ "unchecked", "rawtypes" })
 public void testAcylic()
   {
-    assertEquals("Testing for Cycles with null List", true, LCA.checkAcyclic(null));
+    assertEquals("Testing for Acyclic with null List", true, LCA.checkAcyclic(null));
     
     ArrayList<Node> cycleList = new ArrayList<Node>();
     Node a = new Node("a",1);
     cycleList.add(a);
-    assertEquals("Testing for Cycles with 1 element list", true, LCA.checkAcyclic(cycleList));
+    assertEquals("Testing for Acyclic with 1 element list", true, LCA.checkAcyclic(cycleList));
     
     Node b = new Node("b",3);
     Node c = new Node("c",42);
@@ -74,11 +75,14 @@ public void testAcylic()
     cycleList.add(c);
     cycleList.add(d);
     
-    assertEquals("Testing for Cycles", true, LCA.checkAcyclic(cycleList));
+    assertEquals("Testing for Acyclic", true, LCA.checkAcyclic(cycleList));
     d.connect(a);
-    assertEquals("Testing for Cycles", false, LCA.checkAcyclic(cycleList));
+    assertEquals("Testing for Acyclic", false, LCA.checkAcyclic(cycleList));
     c.connect(a);
-    assertEquals("Testing for Cycles", false, LCA.checkAcyclic(cycleList));
+    assertEquals("Testing for Acyclic", false, LCA.checkAcyclic(cycleList));
+    c.connect(c);
+    assertEquals("Testing for Acyclic", false, LCA.checkAcyclic(cycleList));
+    
   }
 
   
