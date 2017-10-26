@@ -8,7 +8,9 @@ public class LCA
     {
         //we check if it is acyclic and if it is then we perform this algorithm. 
 	    //Otherwise just return null
+    	
     	if(nodeList == null || a == null || b == null || nodeList.size() == 0 ||!nodeList.contains(a) || !nodeList.contains(b) ) return null;
+    	if(!checkAcyclic(nodeList)) return null;
     	ArrayList<Node> rootList = new ArrayList<Node>();
     	ArrayList<Node> ancestorA = new ArrayList<Node>();
     	ArrayList<Node> ancestorB = new ArrayList<Node>();
@@ -84,9 +86,59 @@ public class LCA
 	public static boolean checkAcyclic(ArrayList<Node> aList)
     {
         //TODO:
-        //utilises DFS and it comes across a node it has already marked as visited on this trip then it is not acyclic
-        return false;
+        //DFS effectively
+		if(aList == null || aList.size() == 0) return true;
+		
+		for(int i = 0; i < aList.size(); i++)
+		{
+			ArrayList<Node> visited = new ArrayList<Node>();
+			ArrayList<Node> stack = new ArrayList<Node>();
+			Node src = aList.get(i);
+			boolean hasCycle = false;
+			hasCycle = cycleExists(aList, src, visited, stack, hasCycle);
+			if(hasCycle)
+			{
+				return false;
+			}
+		}
+        return true;
     }
+	
+	private static boolean cycleExists(ArrayList<Node> list, Node tmp, ArrayList<Node> visited, ArrayList<Node> stack, boolean hasCycle)
+	{
+		visited.add(tmp);
+		stack.add(tmp);
+		
+		for(int i = 0; i < tmp.edgesTo.size(); i++)
+		{
+			Node a = (Node) tmp.edgesTo.get(i);
+			if(!visited.contains(a)) 
+			{
+				hasCycle = hasCycle || cycleExists(list, a, visited, stack, hasCycle);
+			}
+			else if(stack.contains(a))
+			{
+				hasCycle = true;
+				return hasCycle;
+			}
+		}
+		stack.remove(tmp);
+		return hasCycle;
+	}
+	/*
+	 marked[v] = true;
+     onStack[v] = true;
+
+     for (int w : g.adjacentNodes(v)) {
+         if(!marked[w]) {
+             cycleExists(g,w);
+         } else if (onStack[w]) {
+             hasCycle = true;
+             return;
+         }
+     }
+
+     onStack[v] = false;*/
 	
 	//find all root nodes - that is nodes that have no incoming edges
 	//we can recursively access all other nodes from these nodes
@@ -98,7 +150,7 @@ public class LCA
 	//if there are multiple common ancestors found then we check all of them, and if anyone of them has another as a descendant we remove it from the list
 	//repeat this until the size of the common ancestor array is 1
 	
-	
+
 	public static ArrayList<Node> intersection(ArrayList<Node> list1, ArrayList<Node> list2) {
 		ArrayList<Node>list = new ArrayList<Node>();
 
